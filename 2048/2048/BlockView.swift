@@ -7,29 +7,22 @@
 
 import UIKit
 
-class BlockView: UIView {
-    var numberImage: UIImageView {
-        var imageView = UIImageView()
-        imageView.frame.size = CGSize(width: 55, height: 55)
-        
-        return imageView
-    }
+class BlockView: UIImageView {
     
-    var imageName: Block
+    var x = 160
     
     init(imageName: Block) {
-        self.imageName = imageName
-        super.init(frame: .zero)
+        super.init(frame: CGRect(x: 160, y: 160, width: 55, height: 55))
+        
+        configureUI(name: imageName.rawValue)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureUI() {
-        numberImage.image = UIImage(named: imageName.rawValue)
-        
-        self.addSubview(numberImage)
+    func configureUI(name: String) {
+        image = UIImage(named: name)
     }
 }
 
