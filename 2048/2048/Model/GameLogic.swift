@@ -69,8 +69,88 @@ final class GameLogic {
                 break
             }
         }
+        compareAroundBlockView(block: block)
         
         return pointArray[index]
+    }
+    //line1일 때는 아래, 오른쪽(line2)
+    func compareAroundBlockView(block: BlockView) {
+        let x = block.frame.origin.x
+        let y = block.frame.origin.y
+        let lines: [Line] = [line1, line2, line3, line4, line5]
+        let lineIndex: Int
+        let index: Int
+        
+        switch x {
+        case 27:
+            lineIndex = 0
+        case 95:
+            lineIndex = 1
+        case 163:
+            lineIndex = 2
+        case 231:
+            lineIndex = 3
+        default:
+            lineIndex = 4
+        }
+        
+        switch y {
+        case 250:
+            index = 0
+        case 320:
+            index = 1
+        case 390:
+            index = 2
+        case 460:
+            index = 3
+        case 530:
+            index = 4
+        case 600:
+            index = 5
+        default:
+            index = 6
+        }
+        
+        if index == 6 {
+            if let leftBlock = lines[safe: lineIndex - 1]?.list[index], compareBlockView(block, leftBlock) {
+                if let rightBlock = lines[safe: lineIndex + 1]?.list[index], compareBlockView(block, rightBlock) {
+                    block.updateState()
+                    block.updateState()
+                } else {
+                    block.updateState()
+                }
+            } else if let rightBlock = lines[safe: lineIndex + 1]?.list[index], compareBlockView(block, rightBlock) {
+                block.updateState()
+            }
+            return
+        }
+        
+        if let leftBlock = lines[safe: lineIndex - 1]?.list[index], compareBlockView(block, leftBlock) {
+            if let rightBlock = lines[safe: lineIndex + 1]?.list[index], compareBlockView(block, rightBlock) {
+                if let underBlock = lines[lineIndex].list[index + 1], compareBlockView(block, underBlock) { // 아 == 나
+                    block.updateState()
+                    block.updateState()
+                    block.updateState()
+                } else { // 왼,오 == 나
+                    block.updateState()
+                    block.updateState()
+                }
+            } else if let underBlock = lines[lineIndex].list[index + 1], compareBlockView(block, underBlock) { // 왼,아 == 나
+                block.updateState()
+                block.updateState()
+            } else { // 왼 == 나
+                block.updateState()
+            }
+        } else if let rightBlock = lines[safe: lineIndex + 1]?.list[index], compareBlockView(block, rightBlock) {
+            if let underBlock = lines[lineIndex].list[index + 1], compareBlockView(block, underBlock) { // 오, 아 == 나
+                block.updateState()
+                block.updateState()
+            } else { // 오 == 나
+                block.updateState()
+            }
+        } else if let underBlock = lines[lineIndex].list[index + 1], compareBlockView(block, underBlock) { // 아 == 나
+            block.updateState()
+        }
     }
     
     func compareBlockView(_ lhs: BlockView, _ rhs: BlockView) -> Bool {
