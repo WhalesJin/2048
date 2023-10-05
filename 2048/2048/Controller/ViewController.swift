@@ -11,7 +11,7 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var gridView: UIView!
     
-    let blockView = BlockView(block: .block2)
+    var blockView = BlockView(block: .block2)
     let gameLogic = GameLogic()
     var tapGestureRecognizer: UITapGestureRecognizer!
 
@@ -37,7 +37,15 @@ class ViewController: UIViewController {
         let point = gameLogic.validatePosition(tappedX: tappedPointX, block: blockView.blockState)
         
         blockView.frame.origin = point
+        
+        makeBlockView()
     }
     
-    
+    func makeBlockView() {
+        let blocks: [Block] = [.block2, .block4, .block8, .block16, .block32]
+        
+        blockView = BlockView(block: blocks.randomElement()!)
+        
+        view.addSubview(blockView)
+    }
 }
