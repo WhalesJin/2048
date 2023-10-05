@@ -9,10 +9,12 @@ import UIKit
 
 class BlockView: UIImageView {
     
-    var x = 160
+    var x = 163
+    var y = 180
+    var timer: Timer?
     
     init(imageName: Block) {
-        super.init(frame: CGRect(x: 160, y: 160, width: 55, height: 55))
+        super.init(frame: CGRect(x: 163, y: 180, width: 60, height: 60))
         
         configureUI(name: imageName.rawValue)
     }
@@ -23,6 +25,31 @@ class BlockView: UIImageView {
     
     func configureUI(name: String) {
         image = UIImage(named: name)
+    }
+    
+    func moveDown( ) {
+        guard y < 670 else {
+            stopTimer()
+            return
+        }
+        
+        timer = Timer.scheduledTimer (withTimeInterval: 1, repeats: true) { [weak self] _ in
+            guard let self = self else { return }
+            
+            guard self.y < 670 else {
+                stopTimer()
+                return
+            }
+            
+            self.y += 35
+            self.frame = CGRect(x: self.x, y: self.y, width: 60, height: 60)
+            
+        }
+    }
+    
+    func stopTimer () {
+        timer?.invalidate ()
+        timer = nil
     }
 }
 
