@@ -11,9 +11,9 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var gridView: UIView!
     
-    let block = BlockView(imageName: .block2)
+    let blockView = BlockView(block: .block2)
+    let gameLogic = GameLogic()
     var tapGestureRecognizer: UITapGestureRecognizer!
-
 
     let gameBoardView = GameBoardView()
 
@@ -21,7 +21,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
 
         view.addSubview(gameBoardView)
-        view.addSubview(block)
+        view.addSubview(blockView)
         
         setUpGestureRecognizer()
     }
@@ -34,19 +34,9 @@ class ViewController: UIViewController {
     @objc
     private func didTappedGridView() {
         let tappedPointX = tapGestureRecognizer.location(in: view).x
+        let point = gameLogic.validatePosition(tappedX: tappedPointX, block: blockView.blockState)
         
-        if tappedPointX >= 23, tappedPointX < 93 {
-            block.x = 23
-            
-        } else if tappedPointX >= 93, tappedPointX < 163 {
-            block.x = 93
-        } else if tappedPointX >= 163, tappedPointX < 233 {
-            block.x = 163
-        } else if tappedPointX >= 233, tappedPointX < 303 {
-            block.x = 233
-        } else {
-            block.x = 303
-        }
+        blockView.frame.origin = point
     }
     
     

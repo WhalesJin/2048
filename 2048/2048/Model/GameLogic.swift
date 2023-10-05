@@ -7,56 +7,59 @@
 
 import Foundation
 
+final class Line {
+    var list: [Block?] = [nil, nil, nil, nil, nil, nil, nil]
+    
+    func insert(_ block: Block,at index: Int) {
+        list.insert(block, at: index)
+    }
+    
+    func hasNext(_ index: Int) -> Bool {
+        return list[index + 1] != nil
+    }
+    
+    func next(_ index: Int) -> Block {
+        return list[index + 1]!
+    }
+}
+
 final class GameLogic {
-    var line1: [Block?] = [nil, nil, nil, nil, nil, nil, nil]
-    var line2: [Block?] = [nil, nil, nil, nil, nil, nil, nil]
-    var line3: [Block?] = [nil, nil, nil, nil, nil, nil, nil]
-    var line4: [Block?] = [nil, nil, nil, nil, nil, nil, nil]
-    var line5: [Block?] = [nil, nil, nil, nil, nil, nil, nil]
+    var line1: Line = Line()
+    var line2: Line = Line()
+    var line3: Line = Line()
+    var line4: Line = Line()
+    var line5: Line = Line()
+    
+    func decideLine(tappedX: CGFloat) -> (Line, [CGPoint]) {
+        if tappedX >= 23, tappedX < 93 {
+            return (line1, pointArray1)
+        } else if tappedX >= 93, tappedX < 163 {
+            return (line2, pointArray2)
+        } else if tappedX >= 163, tappedX < 233 {
+            return (line3, pointArray3)
+        } else if tappedX >= 233, tappedX < 303 {
+            return (line4, pointArray4)
+        } else {
+            return (line5, pointArray5)
+        }
+    }
     
     func validatePosition(tappedX: CGFloat, block: Block) -> CGPoint {
-        if tappedX >= 23, tappedX < 93 {
-            for i in 0...line1.count {
-                if line1[safe: i+1] != nil {
-                    continue
-                } else {
-                    line1[i] = block
-                }
-            }
-        } else if tappedX >= 93, tappedX < 163 {
-            for i in 0...line2.count {
-                if line2[safe: i+1] != nil {
-                    continue
-                } else {
-                    line2[i] = block
-                }
-            }
-        } else if tappedX >= 163, tappedX < 233 {
-            for i in 0...line3.count {
-                if line3[safe: i+1] != nil {
-                    continue
-                } else {
-                    line3[i] = block
-                }
-            }
-        } else if tappedX >= 233, tappedX < 303 {
-            for i in 0...line4.count {
-                if line4[safe: i+1] != nil {
-                    continue
-                } else {
-                    line4[i] = block
-                }
-            }
-        } else {
-            for i in 0...line5.count {
-                if line5[safe: i+1] != nil {
-                    continue
-                } else {
-                    line5[i] = block
-                }
+        let (line, pointArray) = decideLine(tappedX: tappedX)
+        var index = 0
+        
+        for i in 0..<line.list.count-1 {
+            if line.hasNext(i) {
+                line.insert(block, at: i)
+                index = i
+                break
+            } else if i == line.list.count-2 {
+                line.insert(block, at: i+1)
+                index = i+1
+                break
             }
         }
         
-        return .zero
+        return pointArray[index]
     }
 }

@@ -19,12 +19,14 @@ class BlockView: UIImageView {
             self.frame.origin.y = y
         }
     }
+    var blockState: Block
     var timer: Timer?
     
-    init(imageName: Block) {
+    init(block: Block) {
+        self.blockState = block
         super.init(frame: CGRect(x: 163, y: 180, width: 60, height: 60))
         
-        configureUI(name: imageName.rawValue)
+        configureUI(name: block.rawValue)
     }
     
     required init?(coder: NSCoder) {
