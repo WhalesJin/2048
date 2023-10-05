@@ -50,6 +50,16 @@ final class GameLogic {
         
         for i in 0..<line.list.count-1 {
             if line.hasNext(i) {
+                let nextBlockView = line.next(i)
+                
+                if compareBlockView(block, nextBlockView) {
+                    block.updateState()
+                    line.insert(block, at: i+1)
+                    nextBlockView.removeFromSuperview()
+                    index = i+1
+                    break
+                }
+                
                 line.insert(block, at: i)
                 index = i
                 break
@@ -61,5 +71,9 @@ final class GameLogic {
         }
         
         return pointArray[index]
+    }
+    
+    func compareBlockView(_ lhs: BlockView, _ rhs: BlockView) -> Bool {
+        return lhs.blockState == rhs.blockState
     }
 }

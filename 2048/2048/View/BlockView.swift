@@ -19,7 +19,11 @@ class BlockView: UIImageView {
             self.frame.origin.y = y
         }
     }
-    var blockState: Block
+    var blockState: Block {
+        didSet {
+            image = UIImage(named: blockState.rawValue)
+        }
+    }
     var timer: Timer?
     
     init(block: Block) {
@@ -53,8 +57,11 @@ class BlockView: UIImageView {
             
             self.y += 35
             self.frame = CGRect(x: self.x, y: self.y, width: 60, height: 60)
-            
         }
+    }
+    
+    func updateState() {
+        blockState = blockState.levelUp
     }
     
     func stopTimer () {
@@ -75,4 +82,31 @@ enum Block: String {
     case block512 = "512Block"
     case block1024 = "1024Block"
     case block2048 = "2048Block"
+    
+    var levelUp: Block {
+        switch self {
+        case .block2:
+            return .block4
+        case .block4:
+            return .block8
+        case .block8:
+            return .block16
+        case .block16:
+            return .block32
+        case .block32:
+            return .block64
+        case .block64:
+            return .block128
+        case .block128:
+            return .block256
+        case .block256:
+            return .block512
+        case .block512:
+            return .block1024
+        case .block1024:
+            return .block2048
+        case .block2048:
+            return .block2048
+        }
+    }
 }
