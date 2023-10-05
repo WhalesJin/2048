@@ -23,27 +23,18 @@ class ViewController: UIViewController {
         [0, 0, 0, 0, 0]
     ]
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    let gameBoard = GameBoardView()
+    let gameBoardView = GameBoardView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
 
-        view.addSubview(gameBoard)
-        
-//        view.addSubview(block)
-//        block.moveDown()
-    }
-}
-
+        view.addSubview(gameBoardView)
         view.addSubview(block)
-//        setUPGestureRecognizer()
-//        block.moveDown()
+        
+        setUpGestureRecognizer()
     }
     
-    private func setUPGestureRecognizer() {
+    private func setUpGestureRecognizer() {
         tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTappedGridView))
         view.addGestureRecognizer(tapGestureRecognizer)
     }
@@ -51,7 +42,7 @@ class ViewController: UIViewController {
     @objc
     private func didTappedGridView() {
         let tappedPointX = tapGestureRecognizer.location(in: view).x
-        
+        print(tappedPointX)
         if tappedPointX >= 23, tappedPointX < 93 {
             block.x = 23
         } else if tappedPointX >= 93, tappedPointX < 163 {
@@ -63,6 +54,7 @@ class ViewController: UIViewController {
         } else {
             block.x = 303
         }
+        print(block.x)
     }
     
     

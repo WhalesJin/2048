@@ -9,8 +9,16 @@ import UIKit
 
 class BlockView: UIImageView {
     
-    var x = 163
-    var y = 180
+    var x: CGFloat = 163 {
+        didSet {
+            self.frame.origin.x = x
+        }
+    }
+    var y: CGFloat = 180 {
+        didSet {
+            self.frame.origin.y = y
+        }
+    }
     var timer: Timer?
     
     init(imageName: Block) {
