@@ -18,6 +18,9 @@
                         <viewLayoutGuide key="safeArea" id="aYt-IL-DPZ"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
+                    <connections>
+                        <outlet property="gridView" destination="WGB-Kr-dU8" id="1nd-bz-e0f"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZGx-VL-xww" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
