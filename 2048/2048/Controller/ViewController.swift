@@ -13,15 +13,7 @@ class ViewController: UIViewController {
     
     let block = BlockView(imageName: .block2)
     var tapGestureRecognizer: UITapGestureRecognizer!
-    var gameBoard = [
-        [0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0]
-    ]
+
 
     let gameBoardView = GameBoardView()
 
