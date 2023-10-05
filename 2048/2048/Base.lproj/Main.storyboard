@@ -494,6 +494,9 @@
                             <constraint firstItem="WGB-Kr-dU8" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="200" id="5cB-G4-ROk"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="gridView" destination="WGB-Kr-dU8" id="1nd-bz-e0f"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
