@@ -34,7 +34,7 @@ class ViewController: UIViewController {
     @objc
     private func didTappedGridView() {
         let tappedPointX = tapGestureRecognizer.location(in: view).x
-        let point = gameLogic.validatePosition(tappedX: tappedPointX, block: blockView.blockState)
+        let point = gameLogic.validatePosition(tappedX: tappedPointX, block: blockView)
         
         blockView.frame.origin = point
         

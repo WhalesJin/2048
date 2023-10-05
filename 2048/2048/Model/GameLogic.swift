@@ -8,9 +8,9 @@
 import Foundation
 
 final class Line {
-    var list: [Block?] = [nil, nil, nil, nil, nil, nil, nil]
+    var list: [BlockView?] = [nil, nil, nil, nil, nil, nil, nil]
     
-    func insert(_ block: Block,at index: Int) {
+    func insert(_ block: BlockView,at index: Int) {
         list.insert(block, at: index)
     }
     
@@ -18,7 +18,7 @@ final class Line {
         return list[index + 1] != nil
     }
     
-    func next(_ index: Int) -> Block {
+    func next(_ index: Int) -> BlockView {
         return list[index + 1]!
     }
 }
@@ -44,7 +44,7 @@ final class GameLogic {
         }
     }
     
-    func validatePosition(tappedX: CGFloat, block: Block) -> CGPoint {
+    func validatePosition(tappedX: CGFloat, block: BlockView) -> CGPoint {
         let (line, pointArray) = decideLine(tappedX: tappedX)
         var index = 0
         
