@@ -17,10 +17,6 @@ class ViewController: UIViewController {
         
         view.addSubview(block)
         block.moveDown()
-        
-        
     }
-
-
 }
 
