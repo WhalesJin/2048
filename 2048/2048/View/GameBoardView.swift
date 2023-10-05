@@ -2,7 +2,7 @@
 //  GameBoardView.swift
 //  2048
 //
-//  Created by Whales on 10/6/23.
+//  Created by Erick, EtialMoon, Whales on 10/6/23.
 //
 
 import UIKit
