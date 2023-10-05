@@ -2,7 +2,7 @@
 //  ViewController.swift
 //  2048
 //
-//  Created by Whales on 10/5/23.
+//  Created by Erick, EtialMoon, Whales on 10/5/23.
 //
 
 import UIKit
