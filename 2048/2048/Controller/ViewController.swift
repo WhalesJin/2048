@@ -40,7 +40,6 @@ class ViewController: UIViewController {
         return label
     }()
     
-    var blockView = BlockView(block: .block2)
     var blockView: BlockView?
     let gameLogic = GameLogic()
     var tapGestureRecognizer: UITapGestureRecognizer!
@@ -53,11 +52,6 @@ class ViewController: UIViewController {
         view.addSubview(puzzleImage)
         view.addSubview(bestScoreLabel)
         view.addSubview(scoreLabel)
-        view.addSubview(gameBoardView)
-        view.addSubview(blockView)
-        
-        
-        
         view.addSubview(gameBoardView)
         
         makeBlockView()
@@ -72,18 +66,18 @@ class ViewController: UIViewController {
     
     @objc
     private func didTappedGridView() {
-        let tappedPointX = tapGestureRecognizer.location(in: view).x
-        let point = gameLogic.validatePosition(tappedX: tappedPointX, block: blockView)
-        
-        blockView.frame.origin = point
-        
-        makeBlockView()
-        
-        var bestScore: String {
-            String(gameLogic.findBestScore())
-        }
-        
-        scoreLabel.text = bestScore
+//        let tappedPointX = tapGestureRecognizer.location(in: view).x
+//        let point = gameLogic.validatePosition(tappedX: tappedPointX, block: blockView)
+//
+//        blockView.frame.origin = point
+//
+//        makeBlockView()
+//
+//        var bestScore: String {
+//            String(gameLogic.findBestScore())
+//        }
+//
+//        scoreLabel.text = bestScore
         if gameLogic.isFull() {
             gameLogic.clear()
             view.subviews.forEach {
@@ -98,6 +92,13 @@ class ViewController: UIViewController {
             
             present(alert, animated: true)
             makeBlockView()
+            
+            var bestScore: String {
+                String(gameLogic.findBestScore())
+            }
+            
+            scoreLabel.text = bestScore
+            
             return
         } else {
             let tappedPointX = tapGestureRecognizer.location(in: view).x
@@ -106,6 +107,12 @@ class ViewController: UIViewController {
             blockView?.frame.origin = point
             
             makeBlockView()
+            
+            var bestScore: String {
+                String(gameLogic.findBestScore())
+            }
+            
+            scoreLabel.text = bestScore
         }
     }
     

@@ -89,6 +89,8 @@ final class GameLogic {
         }
         
         return bestScore
+    }
+    
     func isLineFull(line: Line) -> Bool {
         return line.list.filter { $0 == nil }.count == 0
     }
