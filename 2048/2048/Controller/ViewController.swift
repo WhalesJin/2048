@@ -11,6 +11,35 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var gridView: UIView!
     
+    let puzzleImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "puzzleIcon")
+        imageView.frame = CGRect(x: 23, y: 110, width: 60, height: 60)
+        
+        return imageView
+    }()
+    
+    let bestScoreLabel: UILabel = {
+        let label = UILabel()
+        label.frame = CGRect(x: 93, y: 110, width: 130, height: 60)
+        label.text = "Best Score :"
+        label.textAlignment = .right
+        label.font = UIFont.preferredFont(forTextStyle: .title1)
+        label.font = UIFont(name: "Arial Rounded MT Bold", size: 20)
+        
+        return label
+    }()
+    
+    let scoreLabel: UILabel = {
+        let label = UILabel()
+        label.frame = CGRect(x: 233, y: 110, width: 120, height: 60)
+        label.textAlignment = .center
+        label.font = UIFont.preferredFont(forTextStyle: .title1)
+        label.font = UIFont(name: "Arial Rounded MT Bold", size: 40)
+        
+        return label
+    }()
+    
     var blockView = BlockView(block: .block2)
     let gameLogic = GameLogic()
     var tapGestureRecognizer: UITapGestureRecognizer!
@@ -19,9 +48,13 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        view.addSubview(puzzleImage)
+        view.addSubview(bestScoreLabel)
+        view.addSubview(scoreLabel)
         view.addSubview(gameBoardView)
         view.addSubview(blockView)
+        
         
         setUpView()
         setUpGestureRecognizer()
@@ -40,6 +73,12 @@ class ViewController: UIViewController {
         blockView.frame.origin = point
         
         makeBlockView()
+        
+        var bestScore: String {
+            String(gameLogic.findBestScore())
+        }
+        
+        scoreLabel.text = bestScore
     }
     
     func makeBlockView() {
