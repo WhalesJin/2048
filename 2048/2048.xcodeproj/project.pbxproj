@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		28A244602ACF290E00A5350D /* Array+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A2445F2ACF290E00A5350D /* Array+.swift */; };
 		28A244622ACF2A0B00A5350D /* GameLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A244612ACF2A0B00A5350D /* GameLogic.swift */; };
+		28A244642ACF9EF000A5350D /* UIColor+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A244632ACF9EF000A5350D /* UIColor+.swift */; };
 		3C8F6DF22ACEE904002BBF52 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C8F6DF12ACEE904002BBF52 /* AppDelegate.swift */; };
 		3C8F6DF42ACEE904002BBF52 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C8F6DF32ACEE904002BBF52 /* SceneDelegate.swift */; };
 		3C8F6DF62ACEE904002BBF52 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C8F6DF52ACEE904002BBF52 /* ViewController.swift */; };
@@ -23,6 +24,7 @@
 /* Begin PBXFileReference section */
 		28A2445F2ACF290E00A5350D /* Array+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+.swift"; sourceTree = "<group>"; };
 		28A244612ACF2A0B00A5350D /* GameLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameLogic.swift; sourceTree = "<group>"; };
+		28A244632ACF9EF000A5350D /* UIColor+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+.swift"; sourceTree = "<group>"; };
 		3C8F6DEE2ACEE904002BBF52 /* 2048.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = 2048.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C8F6DF12ACEE904002BBF52 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3C8F6DF32ACEE904002BBF52 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -87,6 +89,7 @@
 			isa = PBXGroup;
 			children = (
 				28A2445F2ACF290E00A5350D /* Array+.swift */,
+				28A244632ACF9EF000A5350D /* UIColor+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -201,6 +204,7 @@
 				3C8F6DF42ACEE904002BBF52 /* SceneDelegate.swift in Sources */,
 				3C8F6E0A2ACF1785002BBF52 /* GameBoardView.swift in Sources */,
 				28A244602ACF290E00A5350D /* Array+.swift in Sources */,
+				28A244642ACF9EF000A5350D /* UIColor+.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -53,10 +53,10 @@ class GameBoardView: UIView {
     }
     
     func coloredView() {
-        emptyView1.backgroundColor = .lightGray
-        emptyView2.backgroundColor = .gray
-        emptyView3.backgroundColor = .lightGray
-        emptyView4.backgroundColor = .gray
-        emptyView5.backgroundColor = .lightGray
+        emptyView1.backgroundColor = .customGreen3
+        emptyView2.backgroundColor = .customGreen2
+        emptyView3.backgroundColor = .customGreen3
+        emptyView4.backgroundColor = .customGreen2
+        emptyView5.backgroundColor = .customGreen3
     }
 }

@@ -23,6 +23,7 @@ class ViewController: UIViewController {
         view.addSubview(gameBoardView)
         view.addSubview(blockView)
         
+        setUpView()
         setUpGestureRecognizer()
     }
     
@@ -47,5 +48,11 @@ class ViewController: UIViewController {
         blockView = BlockView(block: blocks.randomElement()!)
         
         view.addSubview(blockView)
+    }
+}
+
+extension ViewController {
+    func setUpView() {
+        view.backgroundColor = .customGreen1
     }
 }
