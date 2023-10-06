@@ -30,6 +30,65 @@ final class GameLogic {
     var line4: Line = Line()
     var line5: Line = Line()
     
+    func findBestScore() -> Int {
+        var bestScore: Int
+        var blocks: [Block] = []
+        
+        line1.list.forEach { element in
+            if let element {
+                blocks.append(element.blockState)
+            }
+        }
+        
+        line2.list.forEach { element in
+            if let element {
+                blocks.append(element.blockState)
+            }
+        }
+        
+        line3.list.forEach { element in
+            if let element {
+                blocks.append(element.blockState)
+            }
+        }
+        
+        line4.list.forEach { element in
+            if let element {
+                blocks.append(element.blockState)
+            }
+        }
+        
+        line5.list.forEach { element in
+            if let element {
+                blocks.append(element.blockState)
+            }
+        }
+        
+        if blocks.contains(.block2048) {
+            bestScore = 2048
+        } else if blocks.contains(.block1024) {
+            bestScore = 1024
+        } else if blocks.contains(.block512) {
+            bestScore = 512
+        } else if blocks.contains(.block256) {
+            bestScore = 256
+        } else if blocks.contains(.block128) {
+            bestScore = 128
+        } else if blocks.contains(.block64) {
+            bestScore = 64
+        } else if blocks.contains(.block32) {
+            bestScore = 32
+        } else if blocks.contains(.block16) {
+            bestScore = 16
+        } else if blocks.contains(.block8) {
+            bestScore = 8
+        } else if blocks.contains(.block4) {
+            bestScore = 4
+        } else {
+            bestScore = 2
+        }
+        
+        return bestScore
     func isLineFull(line: Line) -> Bool {
         return line.list.filter { $0 == nil }.count == 0
     }
