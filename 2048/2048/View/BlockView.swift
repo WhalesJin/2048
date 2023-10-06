@@ -22,6 +22,7 @@ class BlockView: UIImageView {
     var blockState: Block {
         didSet {
             image = UIImage(named: blockState.rawValue)
+            runSpringAnimation()
         }
     }
     var timer: Timer?
@@ -31,6 +32,7 @@ class BlockView: UIImageView {
         super.init(frame: CGRect(x: 163, y: 180, width: 60, height: 60))
         
         configureUI(name: block.rawValue)
+        runSpringAnimation()
     }
     
     required init?(coder: NSCoder) {
@@ -67,6 +69,19 @@ class BlockView: UIImageView {
     func stopTimer () {
         timer?.invalidate ()
         timer = nil
+    }
+    
+    func runSpringAnimation() {
+        let jump = CASpringAnimation(keyPath: "transform.scale")
+        jump.damping = 15
+        jump.mass = 1
+        jump.initialVelocity = 10
+        jump.stiffness = 100
+        jump.fromValue = 0
+        jump.toValue = 1
+        jump.duration = jump.settlingDuration
+        
+        self.layer.add(jump, forKey: nil)
     }
 }
 
