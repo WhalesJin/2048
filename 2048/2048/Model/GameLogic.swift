@@ -84,8 +84,10 @@ final class GameLogic {
             bestScore = 8
         } else if blocks.contains(.block4) {
             bestScore = 4
-        } else {
+        } else if blocks.contains(.block2) {
             bestScore = 2
+        } else {
+            bestScore = 0
         }
         
         return bestScore
