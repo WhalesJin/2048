@@ -67,19 +67,6 @@ class ViewController: UIViewController {
     
     @objc
     private func didTappedGridView() {
-//        let tappedPointX = tapGestureRecognizer.location(in: view).x
-//        let point = gameLogic.validatePosition(tappedX: tappedPointX, block: blockView)
-//
-//        blockView.frame.origin = point
-//
-//        makeBlockView()
-//
-//        var bestScore: String {
-//            String(gameLogic.findBestScore())
-//        }
-//
-//        scoreLabel.text = bestScore
-        
         if gameLogic.isFull() {
             gameLogic.clear()
             view.subviews.forEach {
@@ -124,8 +111,15 @@ class ViewController: UIViewController {
     }
     
     func gameClear() {
+        gameLogic.clear()
+        view.subviews.forEach {
+            if $0 is BlockView {
+                $0.removeFromSuperview()
+            }
+        }
+        
         let alert = UIAlertController(title: "성공", message: "128을 만들었습니다.", preferredStyle: .alert)
-        let alertAction = UIAlertAction(title: "야호!", style: .cancel)
+        let alertAction = UIAlertAction(title: "야호!", style: .default)
         alert.addAction(alertAction)
         
         present(alert, animated: true)
