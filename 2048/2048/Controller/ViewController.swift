@@ -104,7 +104,7 @@ class ViewController: UIViewController {
             scoreLabel.text = bestScore
         }
         
-        if scoreLabel.text == "128" {
+        if scoreLabel.text == "1024" {
             gameClear()
         }
         
@@ -118,7 +118,7 @@ class ViewController: UIViewController {
             }
         }
         
-        let alert = UIAlertController(title: "성공", message: "128을 만들었습니다.", preferredStyle: .alert)
+        let alert = UIAlertController(title: "성공", message: "1024를 만들었습니다.", preferredStyle: .alert)
         let alertAction = UIAlertAction(title: "야호!", style: .default)
         alert.addAction(alertAction)
         

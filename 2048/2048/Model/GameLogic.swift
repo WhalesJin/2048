@@ -11,6 +11,10 @@ final class Line {
     var list: [BlockView?] = [nil, nil, nil, nil, nil, nil, nil]
     
     func insert(_ block: BlockView?,at index: Int) {
+        if index - 1 >= 0 {
+            list[index - 1] = nil
+        }
+        
         list[index] = block
     }
     
@@ -129,27 +133,35 @@ final class GameLogic {
     
     func validatePosition(tappedX: CGFloat, block: BlockView) -> CGPoint {
         let (line, pointArray) = decideLine(tappedX: tappedX)
+        var value: CGPoint = CGPoint(x: 0, y: 0)
         
         for i in 0..<line.list.count-1 {
             if line.hasNext(i) {
-                let nextBlockView = line.next(i)
+                var nextBlockView = line.next(i)
                 
-                if compareBlockView(block, nextBlockView) {
-                    block.updateState()
-                    line.insert(block, at: i+1)
-                    nextBlockView.removeFromSuperview()
-                    return pointArray[i+1]
+                if compareBlockView(block, nextBlockView) == false {
+                    line.insert(block, at: i)
+                    value = pointArray[i]
+                    break
                 }
                 
-                line.insert(block, at: i)
-                return pointArray[i]
+                block.updateState()
+                line.insert(block, at: i+1)
+                
+                if i < 5 {
+                    nextBlockView.removeFromSuperview()
+                    nextBlockView = line.next(i+1)
+                }
+                
+                value = pointArray[i+1]
             } else if i == line.list.count-2 {
                 line.insert(block, at: i+1)
-                return pointArray[i+1]
+                value = pointArray[i+1]
+                break
             }
         }
         
-        return validatePosition(tappedX: tappedX, block: block)
+        return value
     }
     
     func compareBlockView(_ lhs: BlockView, _ rhs: BlockView) -> Bool {
