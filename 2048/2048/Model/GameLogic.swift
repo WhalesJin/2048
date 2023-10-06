@@ -118,7 +118,7 @@ final class GameLogic {
     }
     
     func decideLine(tappedX: CGFloat) -> (Line, [CGPoint]) {
-        if tappedX >= 27, tappedX < 95 {
+        if tappedX < 95 {
             return (line1, pointArray1)
         } else if tappedX >= 95, tappedX < 163 {
             return (line2, pointArray2)
