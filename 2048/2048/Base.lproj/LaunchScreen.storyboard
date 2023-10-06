@@ -15,7 +15,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="free-icon-puzzle-718031" translatesAutoresizingMaskIntoConstraints="NO" id="F1y-zz-Wmv">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="puzzleIcon" translatesAutoresizingMaskIntoConstraints="NO" id="F1y-zz-Wmv">
                                 <rect key="frame" x="96.666666666666686" y="250.66666666666663" width="200" height="200"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="200" id="fTC-R2-Par"/>
@@ -44,6 +44,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="free-icon-puzzle-718031" width="512" height="512"/>
+        <image name="puzzleIcon" width="512" height="512"/>
     </resources>
 </document>
