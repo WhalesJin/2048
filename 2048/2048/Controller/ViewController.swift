@@ -11,18 +11,18 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var gridView: UIView!
     
-    var blockView = BlockView(block: .block2)
+    var blockView: BlockView?
     let gameLogic = GameLogic()
     var tapGestureRecognizer: UITapGestureRecognizer!
-
+    
     let gameBoardView = GameBoardView()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        view.addSubview(gameBoardView)
-        view.addSubview(blockView)
         
+        view.addSubview(gameBoardView)
+        
+        makeBlockView()
         setUpView()
         setUpGestureRecognizer()
     }
@@ -34,12 +34,29 @@ class ViewController: UIViewController {
     
     @objc
     private func didTappedGridView() {
-        let tappedPointX = tapGestureRecognizer.location(in: view).x
-        let point = gameLogic.validatePosition(tappedX: tappedPointX, block: blockView)
-        
-        blockView.frame.origin = point
-        
-        makeBlockView()
+        if gameLogic.isFull() {
+            gameLogic.clear()
+            view.subviews.forEach {
+                if $0 is BlockView {
+                    $0.removeFromSuperview()
+                }
+            }
+            
+            let alert = UIAlertController(title: "실패", message: "게임에서 졌습니다.", preferredStyle: .alert)
+            let alertAction = UIAlertAction(title: "아쉽네요", style: .cancel)
+            alert.addAction(alertAction)
+            
+            present(alert, animated: true)
+            makeBlockView()
+            return
+        } else {
+            let tappedPointX = tapGestureRecognizer.location(in: view).x
+            let point = gameLogic.validatePosition(tappedX: tappedPointX, block: blockView!)
+            
+            blockView?.frame.origin = point
+            
+            makeBlockView()
+        }
     }
     
     func makeBlockView() {
@@ -47,7 +64,7 @@ class ViewController: UIViewController {
         
         blockView = BlockView(block: blocks.randomElement()!)
         
-        view.addSubview(blockView)
+        view.addSubview(blockView!)
     }
 }
 

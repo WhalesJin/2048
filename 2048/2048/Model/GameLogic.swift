@@ -10,8 +10,8 @@ import Foundation
 final class Line {
     var list: [BlockView?] = [nil, nil, nil, nil, nil, nil, nil]
     
-    func insert(_ block: BlockView,at index: Int) {
-        list.insert(block, at: index)
+    func insert(_ block: BlockView?,at index: Int) {
+        list[index] = block
     }
     
     func hasNext(_ index: Int) -> Bool {
@@ -30,6 +30,26 @@ final class GameLogic {
     var line4: Line = Line()
     var line5: Line = Line()
     
+    func isLineFull(line: Line) -> Bool {
+        return line.list.filter { $0 == nil }.count == 0
+    }
+    
+    func isFull() -> Bool {
+        return isLineFull(line: line1)
+        || isLineFull(line: line2)
+        || isLineFull(line: line3)
+        || isLineFull(line: line4)
+        || isLineFull(line: line5)
+    }
+    
+    func clear() {
+        line1 = Line()
+        line2 = Line()
+        line3 = Line()
+        line4 = Line()
+        line5 = Line()
+    }
+    
     func decideLine(tappedX: CGFloat) -> (Line, [CGPoint]) {
         if tappedX >= 27, tappedX < 95 {
             return (line1, pointArray1)
@@ -46,7 +66,6 @@ final class GameLogic {
     
     func validatePosition(tappedX: CGFloat, block: BlockView) -> CGPoint {
         let (line, pointArray) = decideLine(tappedX: tappedX)
-        var index = 0
         
         for i in 0..<line.list.count-1 {
             if line.hasNext(i) {
@@ -56,21 +75,18 @@ final class GameLogic {
                     block.updateState()
                     line.insert(block, at: i+1)
                     nextBlockView.removeFromSuperview()
-                    index = i+1
-                    break
+                    return pointArray[i+1]
                 }
                 
                 line.insert(block, at: i)
-                index = i
-                break
+                return pointArray[i]
             } else if i == line.list.count-2 {
                 line.insert(block, at: i+1)
-                index = i+1
-                break
+                return pointArray[i+1]
             }
         }
         
-        return pointArray[index]
+        return validatePosition(tappedX: tappedX, block: block)
     }
     
     func compareBlockView(_ lhs: BlockView, _ rhs: BlockView) -> Bool {
