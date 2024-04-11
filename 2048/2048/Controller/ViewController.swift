@@ -67,7 +67,7 @@ class ViewController: UIViewController {
     
     @objc
     private func didTappedGridView() {
-        guard scoreLabel.text != "1024" else {
+        guard scoreLabel.text != "2048" else {
             gameClear()
             return
         }
@@ -89,7 +89,7 @@ class ViewController: UIViewController {
         
         scoreLabel.text = bestScore
         
-        if scoreLabel.text == "1024" {
+        if scoreLabel.text == "2048" {
             gameClear()
         }
     }
@@ -115,7 +115,7 @@ class ViewController: UIViewController {
     }
 
     private func gameClear() {
-        let alert = UIAlertController(title: "성공", message: "1024를 만들었습니다.", preferredStyle: .alert)
+        let alert = UIAlertController(title: "성공", message: "2048을 만들었습니다.", preferredStyle: .alert)
         let alertAction = UIAlertAction(title: "야호!", style: .default)
         let restartAction = UIAlertAction(title: "재도전", style: .default) { _ in
             self.gameLogic.clear()
