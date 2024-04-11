@@ -11,7 +11,7 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var gridView: UIView!
     
-    let puzzleImage: UIImageView = {
+    private let puzzleImage: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "puzzleIcon")
         imageView.frame = CGRect(x: 23, y: 90, width: 60, height: 60)
@@ -19,7 +19,7 @@ class ViewController: UIViewController {
         return imageView
     }()
     
-    let bestScoreLabel: UILabel = {
+    private let bestScoreLabel: UILabel = {
         let label = UILabel()
         label.frame = CGRect(x: 93, y: 90, width: 130, height: 60)
         label.text = "Best Score :"
@@ -30,7 +30,7 @@ class ViewController: UIViewController {
         return label
     }()
     
-    let scoreLabel: UILabel = {
+    private let scoreLabel: UILabel = {
         let label = UILabel()
         label.frame = CGRect(x: 233, y: 90, width: 120, height: 60)
         label.text = "0"
@@ -41,11 +41,11 @@ class ViewController: UIViewController {
         return label
     }()
     
-    var blockView: BlockView?
-    let gameLogic = GameLogic()
-    var tapGestureRecognizer: UITapGestureRecognizer!
+    private var blockView: BlockView?
+    private let gameLogic = GameLogic()
+    private var tapGestureRecognizer: UITapGestureRecognizer!
     
-    let gameBoardView = GameBoardView()
+    private let gameBoardView = GameBoardView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -110,7 +110,7 @@ class ViewController: UIViewController {
         
     }
     
-    func gameClear() {
+    private func gameClear() {
         gameLogic.clear()
         view.subviews.forEach {
             if $0 is BlockView {
@@ -128,7 +128,7 @@ class ViewController: UIViewController {
     
     }
     
-    func makeBlockView() {
+    private func makeBlockView() {
         let blocks: [Block] = [.block2, .block4, .block8, .block16, .block32, .block64]
         
         blockView = BlockView(block: blocks.randomElement()!)
@@ -138,7 +138,7 @@ class ViewController: UIViewController {
 }
 
 extension ViewController {
-    func setUpView() {
+    private func setUpView() {
         view.backgroundColor = .customGreen1
     }
 }

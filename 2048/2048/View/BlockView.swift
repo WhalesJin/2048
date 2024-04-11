@@ -8,13 +8,12 @@
 import UIKit
 
 class BlockView: UIImageView {
-    
-    var x: CGFloat = 163 {
+    private var x: CGFloat = 163 {
         didSet {
             self.frame.origin.x = x
         }
     }
-    var y: CGFloat = 180 {
+    private var y: CGFloat = 180 {
         didSet {
             self.frame.origin.y = y
         }
@@ -25,7 +24,7 @@ class BlockView: UIImageView {
             runSpringAnimation()
         }
     }
-    var timer: Timer?
+    private var timer: Timer?
     
     init(block: Block) {
         self.blockState = block
@@ -39,11 +38,11 @@ class BlockView: UIImageView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureUI(name: String) {
+    private func configureUI(name: String) {
         image = UIImage(named: name)
     }
     
-    func moveDown( ) {
+    private func moveDown( ) {
         guard y < 670 else {
             stopTimer()
             return
@@ -66,12 +65,12 @@ class BlockView: UIImageView {
         blockState = blockState.levelUp
     }
     
-    func stopTimer () {
+    private func stopTimer () {
         timer?.invalidate ()
         timer = nil
     }
     
-    func runSpringAnimation() {
+    private func runSpringAnimation() {
         let jump = CASpringAnimation(keyPath: "transform.scale")
         jump.damping = 15
         jump.mass = 1

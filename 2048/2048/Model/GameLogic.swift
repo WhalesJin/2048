@@ -28,11 +28,11 @@ final class Line {
 }
 
 final class GameLogic {
-    var line1: Line = Line()
-    var line2: Line = Line()
-    var line3: Line = Line()
-    var line4: Line = Line()
-    var line5: Line = Line()
+    private var line1: Line = Line()
+    private var line2: Line = Line()
+    private var line3: Line = Line()
+    private var line4: Line = Line()
+    private var line5: Line = Line()
     
     func findBestScore() -> Int {
         var bestScore: Int
@@ -97,7 +97,7 @@ final class GameLogic {
         return bestScore
     }
     
-    func isLineFull(line: Line) -> Bool {
+    private func isLineFull(line: Line) -> Bool {
         return line.list.filter { $0 == nil }.count == 0
     }
     
@@ -117,7 +117,7 @@ final class GameLogic {
         line5 = Line()
     }
     
-    func decideLine(tappedX: CGFloat) -> (Line, [CGPoint]) {
+    private func decideLine(tappedX: CGFloat) -> (Line, [CGPoint]) {
         if tappedX < 95 {
             return (line1, pointArray1)
         } else if tappedX >= 95, tappedX < 163 {
@@ -164,7 +164,7 @@ final class GameLogic {
         return value
     }
     
-    func compareBlockView(_ lhs: BlockView, _ rhs: BlockView) -> Bool {
+    private func compareBlockView(_ lhs: BlockView, _ rhs: BlockView) -> Bool {
         return lhs.blockState == rhs.blockState
     }
 }

@@ -8,7 +8,7 @@
 import UIKit
 
 class GameBoardView: UIView {
-    var horizontalStackView: UIStackView = {
+    private var horizontalStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
@@ -18,11 +18,11 @@ class GameBoardView: UIView {
         return stackView
     }()
     
-    let emptyView1 = UIView()
-    let emptyView2 = UIView()
-    let emptyView3 = UIView()
-    let emptyView4 = UIView()
-    let emptyView5 = UIView()
+    private let emptyView1 = UIView()
+    private let emptyView2 = UIView()
+    private let emptyView3 = UIView()
+    private let emptyView4 = UIView()
+    private let emptyView5 = UIView()
     
     init() {
         super.init(frame: CGRect(x: 23, y: 250, width: 340, height: 480))
@@ -35,7 +35,7 @@ class GameBoardView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureUI() {
+    private func configureUI() {
         horizontalStackView.addArrangedSubview(emptyView1)
         horizontalStackView.addArrangedSubview(emptyView2)
         horizontalStackView.addArrangedSubview(emptyView3)
@@ -52,7 +52,7 @@ class GameBoardView: UIView {
         coloredView()
     }
     
-    func coloredView() {
+    private func coloredView() {
         emptyView1.backgroundColor = .customGreen3
         emptyView2.backgroundColor = .customGreen2
         emptyView3.backgroundColor = .customGreen3
