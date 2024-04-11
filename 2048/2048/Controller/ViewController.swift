@@ -67,30 +67,13 @@ class ViewController: UIViewController {
     
     @objc
     private func didTappedGridView() {
-        if gameLogic.isFull() {
-            let alert = UIAlertController(title: "실패", message: "게임에서 졌습니다.", preferredStyle: .alert)
-            let alertAction = UIAlertAction(title: "아쉽네요", style: .default)
-            let restartAction = UIAlertAction(title: "재도전", style: .default) { _ in
-                self.gameLogic.clear()
-                self.view.subviews.forEach {
-                    if $0 is BlockView {
-                        $0.removeFromSuperview()
-                    }
-                }
-                self.makeBlockView()
-            }
-            alert.addAction(alertAction)
-            alert.addAction(restartAction)
-            
-            present(alert, animated: true)
-            
-            var bestScore: String {
-                String(gameLogic.findBestScore())
-            }
-            
-            scoreLabel.text = bestScore
-            
+        guard scoreLabel.text != "1024" else {
+            gameClear()
             return
+        }
+        
+        if gameLogic.isFull() {
+            gameFail()
         } else {
             let tappedPointX = tapGestureRecognizer.location(in: view).x
             let point = gameLogic.validatePosition(tappedX: tappedPointX, block: blockView!)
@@ -98,20 +81,39 @@ class ViewController: UIViewController {
             blockView?.frame.origin = point
             
             makeBlockView()
-            
-            var bestScore: String {
-                String(gameLogic.findBestScore())
-            }
-            
-            scoreLabel.text = bestScore
         }
+        
+        var bestScore: String {
+            String(gameLogic.findBestScore())
+        }
+        
+        scoreLabel.text = bestScore
         
         if scoreLabel.text == "1024" {
             gameClear()
         }
-        
     }
-    
+
+    private func gameFail() {
+        let alert = UIAlertController(title: "실패", message: "게임에서 졌습니다.", preferredStyle: .alert)
+        let alertAction = UIAlertAction(title: "아쉽네요", style: .default)
+        let restartAction = UIAlertAction(title: "재도전", style: .default) { _ in
+            self.gameLogic.clear()
+            self.view.subviews.forEach {
+                if $0 is BlockView {
+                    $0.removeFromSuperview()
+                }
+            }
+            self.scoreLabel.text = "0"
+            self.makeBlockView()
+        }
+        
+        alert.addAction(alertAction)
+        alert.addAction(restartAction)
+        
+        present(alert, animated: true)
+    }
+
     private func gameClear() {
         let alert = UIAlertController(title: "성공", message: "1024를 만들었습니다.", preferredStyle: .alert)
         let alertAction = UIAlertAction(title: "야호!", style: .default)
@@ -122,14 +124,16 @@ class ViewController: UIViewController {
                     $0.removeFromSuperview()
                 }
             }
+            self.scoreLabel.text = "0"
             self.makeBlockView()
         }
+        
         alert.addAction(alertAction)
         alert.addAction(restartAction)
         
         present(alert, animated: true)
     }
-    
+
     private func makeBlockView() {
         let blocks: [Block] = [.block2, .block4, .block8, .block16, .block32, .block64]
         
