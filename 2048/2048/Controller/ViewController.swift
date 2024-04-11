@@ -68,19 +68,21 @@ class ViewController: UIViewController {
     @objc
     private func didTappedGridView() {
         if gameLogic.isFull() {
-            gameLogic.clear()
-            view.subviews.forEach {
-                if $0 is BlockView {
-                    $0.removeFromSuperview()
-                }
-            }
-            
             let alert = UIAlertController(title: "실패", message: "게임에서 졌습니다.", preferredStyle: .alert)
-            let alertAction = UIAlertAction(title: "아쉽네요", style: .cancel)
+            let alertAction = UIAlertAction(title: "아쉽네요", style: .default)
+            let restartAction = UIAlertAction(title: "재도전", style: .default) { _ in
+                self.gameLogic.clear()
+                self.view.subviews.forEach {
+                    if $0 is BlockView {
+                        $0.removeFromSuperview()
+                    }
+                }
+                self.makeBlockView()
+            }
             alert.addAction(alertAction)
+            alert.addAction(restartAction)
             
             present(alert, animated: true)
-            makeBlockView()
             
             var bestScore: String {
                 String(gameLogic.findBestScore())
@@ -111,21 +113,21 @@ class ViewController: UIViewController {
     }
     
     private func gameClear() {
-        gameLogic.clear()
-        view.subviews.forEach {
-            if $0 is BlockView {
-                $0.removeFromSuperview()
-            }
-        }
-        
         let alert = UIAlertController(title: "성공", message: "1024를 만들었습니다.", preferredStyle: .alert)
         let alertAction = UIAlertAction(title: "야호!", style: .default)
+        let restartAction = UIAlertAction(title: "재도전", style: .default) { _ in
+            self.gameLogic.clear()
+            self.view.subviews.forEach {
+                if $0 is BlockView {
+                    $0.removeFromSuperview()
+                }
+            }
+            self.makeBlockView()
+        }
         alert.addAction(alertAction)
+        alert.addAction(restartAction)
         
         present(alert, animated: true)
-        
-        makeBlockView()
-    
     }
     
     private func makeBlockView() {
