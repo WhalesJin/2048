@@ -24,8 +24,22 @@ class GameBoardView: UIView {
     private let emptyView4 = UIView()
     private let emptyView5 = UIView()
     
-    init() {
-        super.init(frame: CGRect(x: 23, y: 250, width: 340, height: 480))
+    init(_ superView: CGRect) {
+        let width = superView.width
+        
+        if width >= 380 {
+            super.init(frame: CGRect(x: superView.midX - 170,
+                                     y: superView.midY - 156,
+                                     width: 340,
+                                     height: 468))
+        } else {
+            let a = width / 38
+            
+            super.init(frame: CGRect(x: superView.midX - 17 * a,
+                                     y: superView.midY - 15.6 * a,
+                                     width: 34 * a,
+                                     height: 46.8 * a))
+        }
         
         self.addSubview(horizontalStackView)
         configureUI()

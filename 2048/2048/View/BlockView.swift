@@ -28,7 +28,22 @@ class BlockView: UIImageView {
     
     init(block: Block) {
         self.blockState = block
-        super.init(frame: CGRect(x: 163, y: 180, width: 60, height: 60))
+        
+        let width = UIScreen.main.bounds.width
+        
+        if width >= 380 {
+            super.init(frame: CGRect(x: UIScreen.main.bounds.midX - 30, 
+                                     y: UIScreen.main.bounds.midY - 226,
+                                     width: 60,
+                                     height: 60))
+        } else {
+            let a = width / 38
+            
+            super.init(frame: CGRect(x: UIScreen.main.bounds.midX - 3 * a, 
+                                     y: UIScreen.main.bounds.midY - 22.6 * a,
+                                     width: 6 * a,
+                                     height: 6 * a))
+        }
         
         configureUI(name: block.rawValue)
         runSpringAnimation()

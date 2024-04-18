@@ -33,6 +33,11 @@ final class GameLogic {
     private var line3: Line = Line()
     private var line4: Line = Line()
     private var line5: Line = Line()
+    private let pointArray: PointArray
+    
+    init(_ width: Double, _ centerX: Double, _ centerY: Double) {
+        pointArray = PointArray(width, centerX, centerY)
+    }
     
     func findBestScore() -> Int {
         var bestScore: Int
@@ -97,16 +102,16 @@ final class GameLogic {
         return bestScore
     }
     
-    private func isLineFull(line: Line) -> Bool {
-        return line.list.filter { $0 == nil }.count == 0
-    }
-    
     func isFull() -> Bool {
         return isLineFull(line: line1)
         || isLineFull(line: line2)
         || isLineFull(line: line3)
         || isLineFull(line: line4)
         || isLineFull(line: line5)
+    }
+    
+    private func isLineFull(line: Line) -> Bool {
+        return line.list.filter { $0 == nil }.count == 0
     }
     
     func clear() {
@@ -118,13 +123,24 @@ final class GameLogic {
     }
     
     private func decideLine(tappedX: CGFloat) -> (Line, [CGPoint]) {
-        if tappedX < 95 {
+        let pointArray1 = pointArray.pointArray1
+        let pointArray2 = pointArray.pointArray2
+        let pointArray3 = pointArray.pointArray3
+        let pointArray4 = pointArray.pointArray4
+        let pointArray5 = pointArray.pointArray5
+        
+        let a = pointArray2[0].x
+        let b = pointArray3[0].x
+        let c = pointArray4[0].x
+        let d = pointArray5[0].x
+        
+        if tappedX < a {
             return (line1, pointArray1)
-        } else if tappedX >= 95, tappedX < 163 {
+        } else if tappedX >= a, tappedX < b {
             return (line2, pointArray2)
-        } else if tappedX >= 163, tappedX < 231 {
+        } else if tappedX >= b, tappedX < c {
             return (line3, pointArray3)
-        } else if tappedX >= 231, tappedX < 299 {
+        } else if tappedX >= c, tappedX < d {
             return (line4, pointArray4)
         } else {
             return (line5, pointArray5)
