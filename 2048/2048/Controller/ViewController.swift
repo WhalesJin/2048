@@ -80,6 +80,14 @@ class ViewController: UIViewController {
             gameFail()
         } else {
             let tappedPointX = tapGestureRecognizer.location(in: view).x
+            let tappedPointY = tapGestureRecognizer.location(in: view).y
+            
+            guard gameBoardView.frame.minX...gameBoardView.frame.maxX ~= tappedPointX,
+                  gameBoardView.frame.minY...gameBoardView.frame.maxY ~= tappedPointY
+            else {
+                return
+            }
+            
             let point = gameLogic.validatePosition(tappedX: tappedPointX, block: blockView!)
             
             blockView?.frame.origin = point
