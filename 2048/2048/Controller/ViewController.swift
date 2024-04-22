@@ -57,7 +57,7 @@ class ViewController: UIViewController {
     }
     
     private func makeBlockView() {
-        let blocks: [Block] = [.block2, .block4, .block8, .block16, .block32, .block64]
+        let blocks: [Block] = [.block2, .block4, .block8, .block16, .block32, .block64, .deleteBlock]
         
         blockView = BlockView(block: blocks.randomElement()!)
         
@@ -90,7 +90,24 @@ class ViewController: UIViewController {
             
             let point = gameLogic.validatePosition(tappedX: tappedPointX, block: blockView!)
             
-            blockView?.frame.origin = point
+            if blockView?.blockState == .deleteBlock {
+                let maxX = gameBoardView.frame.maxX, minX = gameBoardView.frame.minX
+                let width = maxX - minX
+                let x = width / 5
+                let a = minX + x, b = a + x, c = b + x, d = c + x
+                
+                if tappedPointX < a || (tappedPointX >= b && tappedPointX < c) || tappedPointX >= d {
+                    blockView?.blockState = .oddEmpty
+                } else {
+                    blockView?.blockState = .evenEmpty
+                }
+            }
+            
+            if point == CGPoint(x: 0, y: 0) {
+                blockView?.removeFromSuperview()
+            } else {
+                blockView?.frame.origin = point
+            }
             
             makeBlockView()
         }

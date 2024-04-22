@@ -111,6 +111,9 @@ enum Block: String {
     case block512 = "512Block"
     case block1024 = "1024Block"
     case block2048 = "2048Block"
+    case deleteBlock = "DeleteBlock"
+    case evenEmpty = "EvenEmpty"
+    case oddEmpty = "OddEmpty"
     
     var levelUp: Block {
         switch self {
@@ -134,8 +137,8 @@ enum Block: String {
             return .block1024
         case .block1024:
             return .block2048
-        case .block2048:
-            return .block2048
+        default:
+            return self
         }
     }
 }

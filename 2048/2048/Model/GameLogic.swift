@@ -25,6 +25,10 @@ final class Line {
     func next(_ index: Int) -> BlockView {
         return list[index + 1]!
     }
+    
+    func delete(_ index: Int) {
+        list[index] = nil
+    }
 }
 
 final class GameLogic {
@@ -155,6 +159,12 @@ final class GameLogic {
             if line.hasNext(i) {
                 var nextBlockView = line.next(i)
                 
+                if block.blockState == .deleteBlock {
+                    line.delete(i+1)
+                    value = pointArray[i+1]
+                    break
+                }
+                
                 if compareBlockView(block, nextBlockView) == false {
                     line.insert(block, at: i)
                     value = pointArray[i]
@@ -171,9 +181,11 @@ final class GameLogic {
                 
                 value = pointArray[i+1]
             } else if i == line.list.count-2 {
-                line.insert(block, at: i+1)
-                value = pointArray[i+1]
-                break
+                if block.blockState != .deleteBlock {
+                    line.insert(block, at: i+1)
+                    value = pointArray[i+1]
+                    break
+                }
             }
         }
         
