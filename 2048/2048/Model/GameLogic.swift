@@ -165,6 +165,17 @@ final class GameLogic {
                     break
                 }
                 
+                if block.blockState == .downBlock {
+                    if nextBlockView.blockState == .block2 {
+                        nextBlockView.removeFromSuperview()
+                        line.delete(i+1)
+                    } else {
+                        nextBlockView.downState()
+                    }
+                    
+                    break
+                }
+                
                 if compareBlockView(block, nextBlockView) == false {
                     line.insert(block, at: i)
                     value = pointArray[i]
@@ -181,7 +192,7 @@ final class GameLogic {
                 
                 value = pointArray[i+1]
             } else if i == line.list.count-2 {
-                if block.blockState != .deleteBlock {
+                if block.blockState != .deleteBlock, block.blockState != .downBlock {
                     line.insert(block, at: i+1)
                     value = pointArray[i+1]
                     break

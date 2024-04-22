@@ -57,7 +57,7 @@ class ViewController: UIViewController {
     }
     
     private func makeBlockView() {
-        let blocks: [Block] = [.block2, .block4, .block8, .block16, .block32, .block64, .deleteBlock]
+        let blocks: [Block] = [.block2, .block4, .block8, .block16, .block32, .block64, .deleteBlock, .downBlock]
         
         blockView = BlockView(block: blocks.randomElement()!)
         

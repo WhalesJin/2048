@@ -80,6 +80,10 @@ class BlockView: UIImageView {
         blockState = blockState.levelUp
     }
     
+    func downState() {
+        blockState = blockState.levelDown
+    }
+    
     private func stopTimer () {
         timer?.invalidate ()
         timer = nil
@@ -112,6 +116,7 @@ enum Block: String {
     case block1024 = "1024Block"
     case block2048 = "2048Block"
     case deleteBlock = "DeleteBlock"
+    case downBlock = "DownBlock"
     case evenEmpty = "EvenEmpty"
     case oddEmpty = "OddEmpty"
     
@@ -137,6 +142,31 @@ enum Block: String {
             return .block1024
         case .block1024:
             return .block2048
+        default:
+            return self
+        }
+    }
+    
+    var levelDown: Block {
+        switch self {
+        case .block4:
+            return .block2
+        case .block8:
+            return .block4
+        case .block16:
+            return .block8
+        case .block32:
+            return .block16
+        case .block64:
+            return .block32
+        case .block128:
+            return .block64
+        case .block256:
+            return .block128
+        case .block512:
+            return .block256
+        case .block1024:
+            return .block512
         default:
             return self
         }
