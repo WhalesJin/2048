@@ -76,7 +76,7 @@ class BlockView: UIImageView {
         }
     }
     
-    func updateState() {
+    func upState() {
         blockState = blockState.levelUp
     }
     
@@ -116,6 +116,7 @@ enum Block: String {
     case block1024 = "1024Block"
     case block2048 = "2048Block"
     case deleteBlock = "DeleteBlock"
+    case upBlock = "UpBlock"
     case downBlock = "DownBlock"
     case evenEmpty = "EvenEmpty"
     case oddEmpty = "OddEmpty"

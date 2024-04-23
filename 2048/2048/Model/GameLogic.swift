@@ -154,13 +154,13 @@ final class GameLogic {
     func validatePosition(tappedX: CGFloat, block: BlockView) -> (CGPoint, Block) {
         let (line, pointArray) = decideLine(tappedX: tappedX)
         var point: CGPoint = CGPoint(x: 0, y: 0)
-        var block = block
         var blockState = block.blockState
         let lastIndex = line.list.count-1
         
         if line.list[lastIndex] == nil,
-            blockState != .deleteBlock,
-            blockState != .downBlock
+           blockState != .deleteBlock,
+           blockState != .downBlock,
+           blockState != .upBlock
         {
             line.insert(block, at: lastIndex)
             point = pointArray[lastIndex]
@@ -169,7 +169,7 @@ final class GameLogic {
         
         for i in 0..<lastIndex {
             if line.hasNext(i) {
-                var nextBlockView = line.next(i)
+                let nextBlockView = line.next(i)
                 
                 if block.blockState == .deleteBlock {
                     nextBlockView.removeFromSuperview()
@@ -194,13 +194,23 @@ final class GameLogic {
                     }
                 }
                 
+                if block.blockState == .upBlock {
+                    block.blockState = nextBlockView.blockState
+                    block.upState()
+                    blockState = block.blockState
+                    line.insert(block, at: i+1)
+                    point = pointArray[i+1]
+                    nextBlockView.removeFromSuperview()
+                    continue
+                }
+                
                 if compareBlockView(block, nextBlockView) == false {
                     line.insert(block, at: i)
                     point = pointArray[i]
                     break
                 }
                 
-                block.updateState()
+                block.upState()
                 blockState = block.blockState
                 nextBlockView.removeFromSuperview()
                 line.insert(block, at: i+1)

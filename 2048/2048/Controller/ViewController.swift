@@ -57,7 +57,10 @@ class ViewController: UIViewController {
     }
     
     private func makeBlockView() {
-        let blocks: [Block] = [.block2, .block4, .block8, .block16, .block32, .block64, .deleteBlock, .downBlock]
+        let blocks: [Block] = [
+            .block2, .block4, .block8, .block16, .block32, .block64,
+            .deleteBlock, .downBlock, .upBlock
+        ]
         
         blockView = BlockView(block: blocks.randomElement()!)
         
@@ -94,7 +97,7 @@ class ViewController: UIViewController {
                 blockView?.removeFromSuperview()
             }
             
-            if blockView?.blockState == .downBlock {
+            if blockView?.blockState == .downBlock || blockView?.blockState == .upBlock {
                 blockView?.blockState = changedState
             }
             
