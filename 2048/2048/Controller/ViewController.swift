@@ -88,7 +88,7 @@ class ViewController: UIViewController {
                 return
             }
             
-            let point = gameLogic.validatePosition(tappedX: tappedPointX, block: blockView!)
+            let (point, changedState) = gameLogic.validatePosition(tappedX: tappedPointX, block: blockView!)
             
             if blockView?.blockState == .deleteBlock {
                 let maxX = gameBoardView.frame.maxX, minX = gameBoardView.frame.minX
@@ -101,6 +101,10 @@ class ViewController: UIViewController {
                 } else {
                     blockView?.blockState = .evenEmpty
                 }
+            }
+            
+            if blockView?.blockState == .downBlock {
+                blockView?.blockState = changedState
             }
             
             if point == CGPoint(x: 0, y: 0) {

@@ -151,9 +151,11 @@ final class GameLogic {
         }
     }
     
-    func validatePosition(tappedX: CGFloat, block: BlockView) -> CGPoint {
+    func validatePosition(tappedX: CGFloat, block: BlockView) -> (CGPoint, Block) {
         let (line, pointArray) = decideLine(tappedX: tappedX)
-        var value: CGPoint = CGPoint(x: 0, y: 0)
+        var point: CGPoint = CGPoint(x: 0, y: 0)
+        var block = block
+        var blockState = block.blockState
         
         for i in 0..<line.list.count-1 {
             if line.hasNext(i) {
@@ -161,7 +163,7 @@ final class GameLogic {
                 
                 if block.blockState == .deleteBlock {
                     line.delete(i+1)
-                    value = pointArray[i+1]
+                    point = pointArray[i+1]
                     break
                 }
                 
@@ -169,20 +171,26 @@ final class GameLogic {
                     if nextBlockView.blockState == .block2 {
                         nextBlockView.removeFromSuperview()
                         line.delete(i+1)
+                        break
                     } else {
                         nextBlockView.downState()
+                        block = nextBlockView
+                        blockState = block.blockState
+                        line.insert(block, at: i+1)
+                        point = pointArray[i+1]
+                        nextBlockView.removeFromSuperview()
+                        continue
                     }
-                    
-                    break
                 }
                 
                 if compareBlockView(block, nextBlockView) == false {
                     line.insert(block, at: i)
-                    value = pointArray[i]
+                    point = pointArray[i]
                     break
                 }
                 
                 block.updateState()
+                blockState = block.blockState
                 line.insert(block, at: i+1)
                 
                 if i < 5 {
@@ -190,17 +198,17 @@ final class GameLogic {
                     nextBlockView = line.next(i+1)
                 }
                 
-                value = pointArray[i+1]
+                point = pointArray[i+1]
             } else if i == line.list.count-2 {
                 if block.blockState != .deleteBlock, block.blockState != .downBlock {
                     line.insert(block, at: i+1)
-                    value = pointArray[i+1]
+                    point = pointArray[i+1]
                     break
                 }
             }
         }
         
-        return value
+        return (point, blockState)
     }
     
     private func compareBlockView(_ lhs: BlockView, _ rhs: BlockView) -> Bool {
