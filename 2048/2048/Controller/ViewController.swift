@@ -91,16 +91,7 @@ class ViewController: UIViewController {
             let (point, changedState) = gameLogic.validatePosition(tappedX: tappedPointX, block: blockView!)
             
             if blockView?.blockState == .deleteBlock {
-                let maxX = gameBoardView.frame.maxX, minX = gameBoardView.frame.minX
-                let width = maxX - minX
-                let x = width / 5
-                let a = minX + x, b = a + x, c = b + x, d = c + x
-                
-                if tappedPointX < a || (tappedPointX >= b && tappedPointX < c) || tappedPointX >= d {
-                    blockView?.blockState = .oddEmpty
-                } else {
-                    blockView?.blockState = .evenEmpty
-                }
+                blockView?.removeFromSuperview()
             }
             
             if blockView?.blockState == .downBlock {

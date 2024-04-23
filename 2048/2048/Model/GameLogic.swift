@@ -156,12 +156,23 @@ final class GameLogic {
         var point: CGPoint = CGPoint(x: 0, y: 0)
         var block = block
         var blockState = block.blockState
+        let lastIndex = line.list.count-1
         
-        for i in 0..<line.list.count-1 {
+        if line.list[lastIndex] == nil,
+            blockState != .deleteBlock,
+            blockState != .downBlock
+        {
+            line.insert(block, at: lastIndex)
+            point = pointArray[lastIndex]
+            return (point, blockState)
+        }
+        
+        for i in 0..<lastIndex {
             if line.hasNext(i) {
                 var nextBlockView = line.next(i)
                 
                 if block.blockState == .deleteBlock {
+                    nextBlockView.removeFromSuperview()
                     line.delete(i+1)
                     point = pointArray[i+1]
                     break
@@ -173,8 +184,8 @@ final class GameLogic {
                         line.delete(i+1)
                         break
                     } else {
-                        nextBlockView.downState()
-                        block = nextBlockView
+                        block.blockState = nextBlockView.blockState
+                        block.downState()
                         blockState = block.blockState
                         line.insert(block, at: i+1)
                         point = pointArray[i+1]
@@ -191,20 +202,9 @@ final class GameLogic {
                 
                 block.updateState()
                 blockState = block.blockState
+                nextBlockView.removeFromSuperview()
                 line.insert(block, at: i+1)
-                
-                if i < 5 {
-                    nextBlockView.removeFromSuperview()
-                    nextBlockView = line.next(i+1)
-                }
-                
                 point = pointArray[i+1]
-            } else if i == line.list.count-2 {
-                if block.blockState != .deleteBlock, block.blockState != .downBlock {
-                    line.insert(block, at: i+1)
-                    point = pointArray[i+1]
-                    break
-                }
             }
         }
         
