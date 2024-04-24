@@ -42,6 +42,16 @@ class ViewController: UIViewController {
     private var gameBoardView = GameBoardView(UIScreen.main.bounds)
     private var gameLogic = GameLogic(UIScreen.main.bounds.width, UIScreen.main.bounds.midX, UIScreen.main.bounds.midY)
     private var tapGestureRecognizer: UITapGestureRecognizer!
+    private var eventBlocks = [Block]()
+    
+    init(_ eventBlocks: [Block]) {
+        self.eventBlocks = eventBlocks
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,12 +67,9 @@ class ViewController: UIViewController {
     }
     
     private func makeBlockView() {
-        let blocks: [Block] = [
-            .block2, .block4, .block8, .block16, .block32, .block64,
-            .deleteBlock, .downBlock, .upBlock
-        ]
+        let blocks: [Block] = [.block2, .block4, .block8, .block16, .block32, .block64]
         
-        blockView = BlockView(block: blocks.randomElement()!)
+        blockView = BlockView(block: (blocks + blocks + eventBlocks).randomElement()!)
         
         view.addSubview(blockView!)
     }
@@ -122,8 +129,11 @@ class ViewController: UIViewController {
     }
 
     private func gameFail() {
-        let alert = UIAlertController(title: "실패", message: "게임에서 졌습니다.", preferredStyle: .alert)
-        let alertAction = UIAlertAction(title: "아쉽네요", style: .default)
+        let alert = UIAlertController(title: "아쉽네요..", message: "게임에서 졌습니다.", preferredStyle: .alert)
+        let alertAction = UIAlertAction(title: "게임보드 보기", style: .default)
+        let changeModeAction = UIAlertAction(title: "블록 옵션 바꾸기", style: .default) { _ in
+            self.navigationController?.popViewController(animated: true)
+        }
         let restartAction = UIAlertAction(title: "재도전", style: .default) { _ in
             self.gameLogic.clear()
             self.view.subviews.forEach {
@@ -136,14 +146,18 @@ class ViewController: UIViewController {
         }
         
         alert.addAction(alertAction)
+        alert.addAction(changeModeAction)
         alert.addAction(restartAction)
         
         present(alert, animated: true)
     }
 
     private func gameClear() {
-        let alert = UIAlertController(title: "성공", message: "2048을 만들었습니다.", preferredStyle: .alert)
-        let alertAction = UIAlertAction(title: "야호!", style: .default)
+        let alert = UIAlertController(title: "야호!", message: "2048을 만들었습니다.", preferredStyle: .alert)
+        let alertAction = UIAlertAction(title: "게임보드 보기", style: .default)
+        let changeModeAction = UIAlertAction(title: "블록 옵션 바꾸기", style: .default) { _ in
+            self.navigationController?.popViewController(animated: true)
+        }
         let restartAction = UIAlertAction(title: "재도전", style: .default) { _ in
             self.gameLogic.clear()
             self.view.subviews.forEach {
@@ -156,6 +170,7 @@ class ViewController: UIViewController {
         }
         
         alert.addAction(alertAction)
+        alert.addAction(changeModeAction)
         alert.addAction(restartAction)
         
         present(alert, animated: true)
