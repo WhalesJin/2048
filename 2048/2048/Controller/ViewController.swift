@@ -14,14 +14,12 @@ class ViewController: UIViewController {
     private let puzzleImage: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "puzzleIcon")
-        imageView.frame = CGRect(x: 23, y: 90, width: 60, height: 60)
         
         return imageView
     }()
     
     private let bestScoreLabel: UILabel = {
         let label = UILabel()
-        label.frame = CGRect(x: 93, y: 90, width: 130, height: 60)
         label.text = "Best Score :"
         label.textAlignment = .right
         label.font = UIFont.preferredFont(forTextStyle: .title1)
@@ -32,7 +30,6 @@ class ViewController: UIViewController {
     
     private let scoreLabel: UILabel = {
         let label = UILabel()
-        label.frame = CGRect(x: 233, y: 90, width: 120, height: 60)
         label.text = "0"
         label.textAlignment = .center
         label.font = UIFont.preferredFont(forTextStyle: .title1)
@@ -42,10 +39,9 @@ class ViewController: UIViewController {
     }()
     
     private var blockView: BlockView?
-    private let gameLogic = GameLogic()
+    private var gameBoardView = GameBoardView(UIScreen.main.bounds)
+    private var gameLogic = GameLogic(UIScreen.main.bounds.width, UIScreen.main.bounds.midX, UIScreen.main.bounds.midY)
     private var tapGestureRecognizer: UITapGestureRecognizer!
-    
-    private let gameBoardView = GameBoardView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,6 +54,17 @@ class ViewController: UIViewController {
         makeBlockView()
         setUpView()
         setUpGestureRecognizer()
+    }
+    
+    private func makeBlockView() {
+        let blocks: [Block] = [
+            .block2, .block4, .block8, .block16, .block32, .block64,
+            .deleteBlock, .downBlock, .upBlock
+        ]
+        
+        blockView = BlockView(block: blocks.randomElement()!)
+        
+        view.addSubview(blockView!)
     }
     
     private func setUpGestureRecognizer() {
@@ -76,9 +83,29 @@ class ViewController: UIViewController {
             gameFail()
         } else {
             let tappedPointX = tapGestureRecognizer.location(in: view).x
-            let point = gameLogic.validatePosition(tappedX: tappedPointX, block: blockView!)
+            let tappedPointY = tapGestureRecognizer.location(in: view).y
             
-            blockView?.frame.origin = point
+            guard gameBoardView.frame.minX...gameBoardView.frame.maxX ~= tappedPointX,
+                  gameBoardView.frame.minY...gameBoardView.frame.maxY ~= tappedPointY
+            else {
+                return
+            }
+            
+            let (point, changedState) = gameLogic.validatePosition(tappedX: tappedPointX, block: blockView!)
+            
+            if blockView?.blockState == .deleteBlock {
+                blockView?.removeFromSuperview()
+            }
+            
+            if blockView?.blockState == .downBlock || blockView?.blockState == .upBlock {
+                blockView?.blockState = changedState
+            }
+            
+            if point == CGPoint(x: 0, y: 0) {
+                blockView?.removeFromSuperview()
+            } else {
+                blockView?.frame.origin = point
+            }
             
             makeBlockView()
         }
@@ -133,18 +160,40 @@ class ViewController: UIViewController {
         
         present(alert, animated: true)
     }
-
-    private func makeBlockView() {
-        let blocks: [Block] = [.block2, .block4, .block8, .block16, .block32, .block64]
-        
-        blockView = BlockView(block: blocks.randomElement()!)
-        
-        view.addSubview(blockView!)
-    }
 }
 
 extension ViewController {
     private func setUpView() {
         view.backgroundColor = .customGreen1
+        
+        if view.bounds.width >= 380 {
+            puzzleImage.frame = CGRect(x: view.bounds.midX - 166,
+                                       y: view.bounds.midY - 316,
+                                       width: 60,
+                                       height: 60)
+            bestScoreLabel.frame = CGRect(x: view.bounds.midX - 96,
+                                          y: view.bounds.midY - 316,
+                                          width: 140,
+                                          height: 60)
+            scoreLabel.frame = CGRect(x: view.bounds.midX + 54,
+                                      y: view.bounds.midY - 316,
+                                      width: 110,
+                                      height: 60)
+        } else {
+            let a = view.bounds.width / 38
+            
+            puzzleImage.frame = CGRect(x: view.bounds.midX - 16.6 * a,
+                                       y: view.bounds.midY - 29.6 * a,
+                                       width: 6 * a,
+                                       height: 6 * a)
+            bestScoreLabel.frame = CGRect(x: view.bounds.midX - 9.6 * a,
+                                          y: view.bounds.midY - 29.6 * a,
+                                          width: 14 * a,
+                                          height: 6 * a)
+            scoreLabel.frame = CGRect(x: view.bounds.midX + 5.4 * a,
+                                      y: view.bounds.midY - 29.6 * a,
+                                      width: 11 * a,
+                                      height: 6 * a)
+        }
     }
 }

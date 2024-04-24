@@ -28,7 +28,22 @@ class BlockView: UIImageView {
     
     init(block: Block) {
         self.blockState = block
-        super.init(frame: CGRect(x: 163, y: 180, width: 60, height: 60))
+        
+        let width = UIScreen.main.bounds.width
+        
+        if width >= 380 {
+            super.init(frame: CGRect(x: UIScreen.main.bounds.midX - 30, 
+                                     y: UIScreen.main.bounds.midY - 226,
+                                     width: 60,
+                                     height: 60))
+        } else {
+            let a = width / 38
+            
+            super.init(frame: CGRect(x: UIScreen.main.bounds.midX - 3 * a, 
+                                     y: UIScreen.main.bounds.midY - 22.6 * a,
+                                     width: 6 * a,
+                                     height: 6 * a))
+        }
         
         configureUI(name: block.rawValue)
         runSpringAnimation()
@@ -61,8 +76,12 @@ class BlockView: UIImageView {
         }
     }
     
-    func updateState() {
+    func upState() {
         blockState = blockState.levelUp
+    }
+    
+    func downState() {
+        blockState = blockState.levelDown
     }
     
     private func stopTimer () {
@@ -96,6 +115,9 @@ enum Block: String {
     case block512 = "512Block"
     case block1024 = "1024Block"
     case block2048 = "2048Block"
+    case deleteBlock = "DeleteBlock"
+    case upBlock = "UpBlock"
+    case downBlock = "DownBlock"
     
     var levelUp: Block {
         switch self {
@@ -119,8 +141,33 @@ enum Block: String {
             return .block1024
         case .block1024:
             return .block2048
-        case .block2048:
-            return .block2048
+        default:
+            return self
+        }
+    }
+    
+    var levelDown: Block {
+        switch self {
+        case .block4:
+            return .block2
+        case .block8:
+            return .block4
+        case .block16:
+            return .block8
+        case .block32:
+            return .block16
+        case .block64:
+            return .block32
+        case .block128:
+            return .block64
+        case .block256:
+            return .block128
+        case .block512:
+            return .block256
+        case .block1024:
+            return .block512
+        default:
+            return self
         }
     }
 }

@@ -25,6 +25,10 @@ final class Line {
     func next(_ index: Int) -> BlockView {
         return list[index + 1]!
     }
+    
+    func delete(_ index: Int) {
+        list[index] = nil
+    }
 }
 
 final class GameLogic {
@@ -33,6 +37,11 @@ final class GameLogic {
     private var line3: Line = Line()
     private var line4: Line = Line()
     private var line5: Line = Line()
+    private let pointArray: PointArray
+    
+    init(_ width: Double, _ centerX: Double, _ centerY: Double) {
+        pointArray = PointArray(width, centerX, centerY)
+    }
     
     func findBestScore() -> Int {
         var bestScore: Int
@@ -97,16 +106,16 @@ final class GameLogic {
         return bestScore
     }
     
-    private func isLineFull(line: Line) -> Bool {
-        return line.list.filter { $0 == nil }.count == 0
-    }
-    
     func isFull() -> Bool {
         return isLineFull(line: line1)
         || isLineFull(line: line2)
         || isLineFull(line: line3)
         || isLineFull(line: line4)
         || isLineFull(line: line5)
+    }
+    
+    private func isLineFull(line: Line) -> Bool {
+        return line.list.filter { $0 == nil }.count == 0
     }
     
     func clear() {
@@ -118,50 +127,98 @@ final class GameLogic {
     }
     
     private func decideLine(tappedX: CGFloat) -> (Line, [CGPoint]) {
-        if tappedX < 95 {
+        let pointArray1 = pointArray.pointArray1
+        let pointArray2 = pointArray.pointArray2
+        let pointArray3 = pointArray.pointArray3
+        let pointArray4 = pointArray.pointArray4
+        let pointArray5 = pointArray.pointArray5
+        
+        let a = pointArray2[0].x
+        let b = pointArray3[0].x
+        let c = pointArray4[0].x
+        let d = pointArray5[0].x
+        
+        if tappedX < a {
             return (line1, pointArray1)
-        } else if tappedX >= 95, tappedX < 163 {
+        } else if tappedX >= a, tappedX < b {
             return (line2, pointArray2)
-        } else if tappedX >= 163, tappedX < 231 {
+        } else if tappedX >= b, tappedX < c {
             return (line3, pointArray3)
-        } else if tappedX >= 231, tappedX < 299 {
+        } else if tappedX >= c, tappedX < d {
             return (line4, pointArray4)
         } else {
             return (line5, pointArray5)
         }
     }
     
-    func validatePosition(tappedX: CGFloat, block: BlockView) -> CGPoint {
+    func validatePosition(tappedX: CGFloat, block: BlockView) -> (CGPoint, Block) {
         let (line, pointArray) = decideLine(tappedX: tappedX)
-        var value: CGPoint = CGPoint(x: 0, y: 0)
+        var point: CGPoint = CGPoint(x: 0, y: 0)
+        var blockState = block.blockState
+        let lastIndex = line.list.count-1
         
-        for i in 0..<line.list.count-1 {
+        if line.list[lastIndex] == nil,
+           blockState != .deleteBlock,
+           blockState != .downBlock,
+           blockState != .upBlock
+        {
+            line.insert(block, at: lastIndex)
+            point = pointArray[lastIndex]
+            return (point, blockState)
+        }
+        
+        for i in 0..<lastIndex {
             if line.hasNext(i) {
-                var nextBlockView = line.next(i)
+                let nextBlockView = line.next(i)
                 
-                if compareBlockView(block, nextBlockView) == false {
-                    line.insert(block, at: i)
-                    value = pointArray[i]
+                if block.blockState == .deleteBlock {
+                    nextBlockView.removeFromSuperview()
+                    line.delete(i+1)
+                    point = pointArray[i+1]
                     break
                 }
                 
-                block.updateState()
-                line.insert(block, at: i+1)
-                
-                if i < 5 {
-                    nextBlockView.removeFromSuperview()
-                    nextBlockView = line.next(i+1)
+                if block.blockState == .downBlock {
+                    if nextBlockView.blockState == .block2 {
+                        nextBlockView.removeFromSuperview()
+                        line.delete(i+1)
+                        break
+                    } else {
+                        block.blockState = nextBlockView.blockState
+                        block.downState()
+                        blockState = block.blockState
+                        line.insert(block, at: i+1)
+                        point = pointArray[i+1]
+                        nextBlockView.removeFromSuperview()
+                        continue
+                    }
                 }
                 
-                value = pointArray[i+1]
-            } else if i == line.list.count-2 {
+                if block.blockState == .upBlock {
+                    block.blockState = nextBlockView.blockState
+                    block.upState()
+                    blockState = block.blockState
+                    line.insert(block, at: i+1)
+                    point = pointArray[i+1]
+                    nextBlockView.removeFromSuperview()
+                    continue
+                }
+                
+                if compareBlockView(block, nextBlockView) == false {
+                    line.insert(block, at: i)
+                    point = pointArray[i]
+                    break
+                }
+                
+                block.upState()
+                blockState = block.blockState
+                nextBlockView.removeFromSuperview()
                 line.insert(block, at: i+1)
-                value = pointArray[i+1]
-                break
+                point = pointArray[i+1]
             }
         }
         
-        return value
+        return (point, blockState)
     }
     
     private func compareBlockView(_ lhs: BlockView, _ rhs: BlockView) -> Bool {
