@@ -118,8 +118,6 @@ enum Block: String {
     case deleteBlock = "DeleteBlock"
     case upBlock = "UpBlock"
     case downBlock = "DownBlock"
-    case evenEmpty = "EvenEmpty"
-    case oddEmpty = "OddEmpty"
     
     var levelUp: Block {
         switch self {
