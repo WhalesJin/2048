@@ -79,6 +79,8 @@ class ViewController: UIViewController {
     private func setUpGestureRecognizer() {
         tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTappedGridView))
         view.addGestureRecognizer(tapGestureRecognizer)
+        
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = false
     }
     
     @objc
