@@ -24,6 +24,7 @@ class ViewController: UIViewController {
         label.textAlignment = .right
         label.font = UIFont.preferredFont(forTextStyle: .title1)
         label.font = UIFont(name: "Arial Rounded MT Bold", size: 20)
+        label.textColor = .black
         
         return label
     }()
@@ -34,6 +35,7 @@ class ViewController: UIViewController {
         label.textAlignment = .center
         label.font = UIFont.preferredFont(forTextStyle: .title1)
         label.font = UIFont(name: "Arial Rounded MT Bold", size: 40)
+        label.textColor = .black
         
         return label
     }()
